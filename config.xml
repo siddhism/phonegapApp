@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "com.sharabh.workshop"
+        versionCode = "1" 
+        version     = "1.0.0" >
+
+    <icon src="icon.png" gap:platform="android" gap:density="ldpi" />
+	<name>PhoneGap WorkShop</name>
+	<gap:splash src="splash/android/ldpi.png" gap:platform="android" gap:density="ldpi" />
+	<gap:splash src="splash/android/mdpi.png" gap:platform="android" gap:density="mdpi" />
+	<gap:splash src="splash/android/hdpi.png" gap:platform="android" gap:density="hdpi" />
+	<gap:splash src="splash/android/xhdpi.png" gap:platform="android" gap:density="xhdpi" />
+	
+	
+	<gap:splash src="splash/ios/ldpi.png" gap:platform="ios" width="320" height="480" />
+	<gap:splash src="splash/ios/mdpi.png" gap:platform="ios" width="640" height="960" />
+	<gap:splash src="splash/ios/hdpi.png" gap:platform="ios" width="640" height="1136" />
+	<gap:splash src="splash/ios/xhdpi.png" gap:platform="ios" width="768" height="1004" />
+
+	
+    <description>
+        PhoneGap Workshop By Sharabh Technologies Pvt Ltd
+    </description>
+
+    <author href="http://sharabh.com" email="contact@sharabh.com">
+        Sharabh Technologies Pvt Ltd
+    </author>
+    <gap:plugin name="org.apache.cordova.device" />
+	<gap:plugin name="de.appplant.cordova.plugin.local-notification" />
+</widget>

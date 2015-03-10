@@ -1,0 +1,110 @@
+<html>
+<head>
+	<title>PhoneGap WorkShop</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="jquery.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/pure-min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	
+</head>
+<body>
+
+	<div class="pure-g">
+
+		<div class="pure-u-1-1" id="header">
+			<div class="top-icon">
+				<a class="fa fa-chevron-circle-left" href="index.html"></a>
+			</div>
+		</div>
+
+		<div class="pure-u-1-1" id="form-wrapper">
+		<form id="reminder_form" class="pure-form pure-form-stacked">
+			
+		<fieldset>
+        <legend>Create New Reminder</legend>
+
+        <label for="reminder_title" required>Enter Title</label>
+        <input type="text" id="reminder_title" placeholder="Enter Reminder Title" class="pure-input-1">
+
+        <label for="reminder_desc" required>Enter Description</label>
+        <textarea id="reminder_desc" placeholder="Enter Reminder Description" class="pure-input-1"></textarea>
+
+        <label for="reminder_date" required>Enter Date</label>
+        <input type="date" id="reminder_date" class="pure-input-1">
+
+        <label for="reminder_time" required>Enter Date</label>
+        <input type="time" id="reminder_time" class="pure-input-1">
+
+        <input type="button" id="reminder_save" value="Create" class="pure-button pure-button-primary pure-input-1">
+        </fieldset>	
+</form>
+</div>
+	</div>
+
+</body>
+</html>
+<script type="text/javascript">
+//deviceready event fires when DOM is completely ready and loaded in WebView.
+document.addEventListener("deviceready",onDeviceReady,false);
+
+function onDeviceReady()
+{
+	//Event Listener When Someone Taps on Notification From Status Bar
+	plugin.notification.local.onclick = function (id, state, json)
+	{  
+		//Redirecting to ReminderHandler Page with Notification ID/Partial Reminder Key
+		window.location="reminderHandler.html?reminder_key="+JSON.parse(json).randomKey;
+	}
+	
+	//Create Button Click Handler
+	$("#reminder_save").on("click",function(e){
+	var reminder_title=$("#reminder_title").val().trim();
+	var reminder_desc=$("#reminder_desc").val().trim();
+	var reminder_dt=$("#reminder_date").val().trim();
+	var reminder_tm=$("#reminder_time").val().trim();
+
+	//Check if fields are empty..
+	if(reminder_title=="" || reminder_desc=="" || reminder_dt=="" || reminder_tm=="")
+	{
+		alert("Fields can't be Blank..!!");
+		return false;
+	}
+
+	var date_obj=reminder_dt+" "+reminder_tm;
+
+	//Creating new Date Object for Local Notification Plugin
+	reminder_date_time=new Date(date_obj);
+	//Creating Object that we are going to store in Local Storage.
+	var reminder_object={};
+
+	reminder_object.r_title=reminder_title;
+	reminder_object.r_desc=reminder_desc;
+	reminder_object.r_date=reminder_dt;
+	reminder_object.r_time=reminder_tm;
+	
+	//A random number to uniquely identify each Reminder
+	var randomKey=parseInt(Math.random()*1500);
+	
+	//Storing Reminder Object in Local Storage in String Format by using JSON.stringify
+	window.localStorage.setItem("reminder"+randomKey,JSON.stringify(reminder_object));
+
+	//Using Local Notification Plugin To Schedule A Notification
+	plugin.notification.local.add({
+    id:         randomKey,  //Local Notification Unique Id
+    date:       reminder_date_time,   //Date Object To Trigger Notification On Specific Time
+    message:    reminder_desc, //Notification Message
+    title:      reminder_title,  //Notification Title
+    json:       JSON.stringify({randomKey:randomKey}), //JSON Data to pass to Notification When it is clicked
+    autoCancel: true, //Making it true will clear Notification from status Bar when we tap on it.
+    sound:'TYPE_ALARM' //When Notification triggers, Default Alarm Ringtone will be played.
+	});
+
+	//To reset form and empty all form fields
+	$("#reminder_form")[0].reset();
+});
+
+}
+//Thats all Folks
+</script>

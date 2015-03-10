@@ -1,0 +1,79 @@
+<html>
+<head>
+	<title>PhoneGap WorkShop</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="jquery.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/pure-min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+	<div class="pure-g">
+
+
+		<div class="pure-u-1-1" id="header">
+			<div class="top-icon">
+				<a class="fa fa-bell" href="index.html"></a>
+			</div>
+		</div>
+
+		<div class="pure-u-1-1" id="form-wrapper">
+
+		<div id="reminder-lists" class="pure-u-1-1">
+
+			
+
+		</div>
+
+	</div>
+</div>
+
+</body>
+</html>
+<script type="text/javascript">
+//This is a function used to retrieve Query String Data from URL
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+//deviceready event fires when DOM is completely ready and loaded in WebView.
+document.addEventListener("deviceready",onDeviceReady,false);
+function onDeviceReady()
+{
+	//Event Listener When Someone Taps on Notification From Status Bar
+	plugin.notification.local.onclick = function (id, state, json)
+	{  
+		//Redirecting to ReminderHandler Page with Notification ID/Partial Reminder Key
+	window.location="reminderHandler.html?reminder_key="+JSON.parse(json).randomKey;
+	}
+
+	//Retrieving reminder key from url
+	var randomKey=getUrlVars()["reminder_key"];
+
+	//Fetching Reminder Data(In String Format) From Local Storage by passing Reminder Key
+	var reminderItemObject=window.localStorage.getItem("reminder"+randomKey);
+	//Changing Reminder Data(In String Format) back to JavaScript Object
+	var reminderItem=JSON.parse(reminderItemObject);
+	var reminderTitle=reminderItem['r_title'];
+	var reminderDesc=reminderItem['r_desc'];
+	var reminderTime=reminderItem['r_date']+" "+reminderItem['r_time'];
+	//Appending Reminder List to Reminder List Container
+	$("#reminder-lists").append('<div class="list-item"><div class="pure-u-1-1 notification-title">'+reminderTitle+'</div><div class="pure-u-1-1 notification-desc">'+reminderDesc+'</div><div class="pure-u-1-1 notification-date-time">'+reminderTime+'</div></div>');
+	//Deleting Reminder From Local Storage
+	window.localStorage.removeItem("reminder"+randomKey);
+
+}
+
+
+//Thats all Folks
+</script>

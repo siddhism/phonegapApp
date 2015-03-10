@@ -1,0 +1,58 @@
+#form-wrapper
+	{
+		margin-top: 50px;
+		padding:15px;
+
+	}
+	#header
+	{
+		background-color: #494747;
+		height: 50px;
+		position: fixed;
+		
+	}
+
+	.top-icon
+	{
+		color:#fff;
+		font-size: 30px;
+	}
+
+	.top-icon a
+	{
+		color: #fff;
+		text-decoration: none;
+		height: 40px;
+		width: 40px;
+		display: inline-block;
+		padding: 10px 0px 0px 15px;
+	}
+	#createNewReminder
+	{
+		width: 100%;
+	}
+	.list-item
+	{
+		background-color: #F3F3F3;
+		border-bottom: 1px solid #BBB;
+		padding: 10px;
+	}
+	#reminder-lists
+	{
+		margin-top: 15px;
+	}
+	.notification-title
+	{
+		font-weight: bold;
+	}
+	.notification-desc
+	{
+		font-style: italic;
+		color: #494646;
+		font-size: 14px;
+	}
+	.notification-date-time
+	{
+		font-size: 11px;
+		color: #8C8484;
+	}
